@@ -1,0 +1,23 @@
+[build]
+  # No build command needed - just functions
+  command = "echo 'No build required for backend functions'"
+  
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# CORS settings for contact form
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://www.icodewith.ai, https://next.icodewith.ai, https://icodewith.ai"
+    Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+
+# Handle preflight requests
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  headers = {Access-Control-Allow-Origin = "https://www.icodewith.ai, https://next.icodewith.ai, https://icodewith.ai"}
+  conditions = {Method = ["OPTIONS"]}
