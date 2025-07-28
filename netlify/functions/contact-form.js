@@ -4,29 +4,29 @@ const { Resend } = require('resend');
 const rateLimitStore = new Map();
 
 exports.handler = async (event, context) => {
-  // Only allow POST requests
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
-      },
-      body: JSON.stringify({ error: 'Method not allowed' })
-    };
-  }
+  // CORS headers for all responses
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '86400'
+  };
 
   // Handle preflight requests
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
-      },
+      headers: corsHeaders,
       body: ''
+    };
+  }
+
+  // Only allow POST requests
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Method not allowed' })
     };
   }
 
@@ -44,10 +44,7 @@ exports.handler = async (event, context) => {
         if (count >= maxRequests) {
           return {
             statusCode: 429,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'application/json'
-            },
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
               error: 'Too many requests. Please wait before submitting again.' 
             })
@@ -71,10 +68,7 @@ exports.handler = async (event, context) => {
     if (!firstName || !lastName || !email || !message) {
       return {
         statusCode: 400,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           error: 'Missing required fields: firstName, lastName, email, message' 
         })
@@ -86,10 +80,7 @@ exports.handler = async (event, context) => {
     if (!emailRegex.test(email)) {
       return {
         statusCode: 400,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           error: 'Invalid email format' 
         })
@@ -140,10 +131,7 @@ This email was sent from the iCodeWith.ai contact form.
       console.error('Resend error:', error);
       return {
         statusCode: 500,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           error: 'Failed to send email. Please try again later.' 
         })
@@ -155,10 +143,7 @@ This email was sent from the iCodeWith.ai contact form.
     // Return success response
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         success: true,
         message: 'Your message has been sent successfully!' 
@@ -170,10 +155,7 @@ This email was sent from the iCodeWith.ai contact form.
     
     return {
       statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         error: 'Internal server error. Please try again later.' 
       })
