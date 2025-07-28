@@ -44,3 +44,5 @@ The function accepts requests from:
 
 - Max 5 submissions per IP per hour
 - Resets on function cold start
+
+more to come.
