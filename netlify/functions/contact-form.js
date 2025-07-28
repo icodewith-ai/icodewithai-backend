@@ -121,7 +121,7 @@ This email was sent from the iCodeWith.ai contact form.
 
     // Send email
     const { data, error } = await resend.emails.send({
-      from: 'noreply@send.icodewith.ai',
+      from: 'contact@send.icodewith.ai',
       to: [process.env.RECIPIENT_EMAIL],
       subject: emailSubject,
       text: emailContent
