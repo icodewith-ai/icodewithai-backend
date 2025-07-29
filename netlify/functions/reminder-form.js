@@ -120,8 +120,12 @@ exports.handler = async (event, context) => {
     const emailContent = `Hi ${firstName},
 
 Your reminder is set! Here are the details:
-Page Name: ${pageTitle || 'Page title not available'}
-Page URL: ${pageUrl || 'Page URL not available'}
+
+Your name: ${firstName} ${lastName}
+Your email: ${email}
+========================================
+${pageTitle || 'Page title not available'}
+${pageUrl || 'Page URL not available'}
 
 Have a great one!`;
 
