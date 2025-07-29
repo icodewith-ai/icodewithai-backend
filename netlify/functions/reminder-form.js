@@ -123,11 +123,13 @@ Your reminder is set! Here are the details:
 
 Your name: ${firstName} ${lastName}
 Your email: ${email}
-========================================
+
+The page you requested a reminder for:
+--------------------------------------------
 ${pageTitle || 'Page title not available'}
 ${pageUrl || 'Page URL not available'}
 
-Have a great one!`;
+Learn more at iCodeWith.ai`;
 
     console.log(`[REMINDER-FORM] Sending reminder confirmation email to: ${email}`);
 
