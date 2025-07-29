@@ -125,8 +125,8 @@ Your name: ${firstName} ${lastName}
 Your email: ${email}
 
 The page you requested a reminder for:
---------------------------------------------
-${pageTitle || 'Page title not available'}
+
+${(pageTitle || 'Page title not available').replace('| iCodeWith.ai', '').trim()}
 ${pageUrl || 'Page URL not available'}
 
 Learn more at iCodeWith.ai`;
