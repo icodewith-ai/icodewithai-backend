@@ -1,6 +1,6 @@
 {
   "name": "icodewithai-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backend services for iCodeWith.ai",
   "main": "index.js",
   "scripts": {
